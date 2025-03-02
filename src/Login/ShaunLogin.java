@@ -2,7 +2,6 @@ package Login;
 
 import java.time.Duration;
 
-import org.dataloader.annotations.VisibleForTesting;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,12 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.annotations.TestInstance;
 
 public class ShaunLogin{
     private WebDriver driver;
@@ -41,33 +37,38 @@ public class ShaunLogin{
 	 //click login button
 		 driver.findElement(By.xpath("//*[@id=\"right\"]/div/div/button")).click();
 	 //waiting 2 seconds
-		 Thread.sleep(2000); 
+		 //Thread.sleep(4000); 
+		 
 	 //expected title
-		 String expectedTitle = "Landing Page | Shaun platform demo Dec 03, 2024 Zoldyck 1004 Angel Demon";
+		 String expectedTitle = "Home Page | Shaun platform demo Dec 03, 2024 Zoldyck 1004 Angel Demon";
+		 new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.titleIs(expectedTitle));
 	 //get actualtitle and compare it
 		 String actualTitle = driver.getTitle();
 		 Assert.assertEquals(actualTitle, expectedTitle);
 	 }
 	
-	 @Test(description = "Login wrong pass") 
+	 @Test(description = "T2: Login wrong pass") 
 	 public void LoginWrongpass() throws InterruptedException {
 	 
-	 //input email and password
+		 //input email and password
 		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		 WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='right']/div/div/div[1]/div/input")));
 		 emailField.sendKeys("admin@socialloft.com"); 
 		 WebElement passField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"right\"]/div/div/div[2]/div/input")));
 		 passField.sendKeys("4321243");
-	 //waiting 2 seconds
-		 Thread.sleep(1000);
+		 driver.findElement(By.xpath("//*[@id=\"right\"]/div/div/button")).click();
+		 
+		 //waiting 2 seconds
+		 Thread.sleep(2000); 
 		 //get error
 		 String expectedError = "Your email or password was incorrect.";
+		 
 		 WebElement errorMessage = driver.findElement(By.cssSelector("div.p-toast-detail"));
 		 String actualError = errorMessage.getText();
 		 Assert.assertEquals(actualError,expectedError); 
 	}
-	 @Test(description = "login with blank fields")
-	public void loginWithBlankfields() throws InterruptedException {
+	 @Test(description = "T3: login with blank fields")
+	 public void loginWithBlankfields() throws InterruptedException {
 		
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='right']/div/div/div[1]/div/input")));
@@ -78,13 +79,12 @@ public class ShaunLogin{
         //click login button
         driver.findElement(By.xpath("//*[@id=\"right\"]/div/div/button")).click();
         //waiting 2 seconds
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         
         //get error
     	String expectedError1 = "The email is required.";
     	String expectedError2 = "The password is required.";
     	//get actualtitle and compare it
-    	//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     	String actualError1 = driver.findElement(By.xpath("//*[@id=\"right\"]/div/div/div[1]/small")).getText();
 	    Assert.assertEquals(actualError1, expectedError1);
 	    
