@@ -6,8 +6,8 @@
       <class name="Login.ShaunLogin">
         <methods>
           <include name="setUp"/>
-          <include name="LoginWrongpass"/>
           <include name="tearDown"/>
+          <include name="LoginSuccess"/>
         </methods>
       </class> <!-- Login.ShaunLogin -->
     </classes>
